@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLID Principles: An Interactive Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Base font for consistency */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gradient text for titles */
+        .gradient-text {
+            background: linear-gradient(to right, #00A6FB, #0582CA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Styles for down-pointing flow arrows in diagrams */
+        .flow-arrow-down {
+            position: relative;
+            width: 2px;
+            background-color: #6B7280; /* Gray line */
+            margin: 8px auto; /* Spacing */
+            height: 24px; /* Length of the arrow line */
+        }
+        .flow-arrow-down::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; /* Position at the end of the line */
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #6B7280; /* Triangle head */
+        }
+
+        /* Styles for right-pointing flow arrows in diagrams */
+        .flow-arrow-right {
+            position: relative;
+            height: 2px;
+            background-color: #6B7280; /* Gray line */
+            width: 24px; /* Length of the arrow line */
+            margin: auto 8px; /* Spacing */
+        }
+        .flow-arrow-right::after {
+            content: '';
+            position: absolute;
+            right: -1px; /* Position at the end of the line */
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 8px solid #6B7280; /* Triangle head */
+        }
+
+        /* Horizontal dashed line for separation in diagrams */
+        .dashed-line-horizontal {
+            border-bottom: 2px dashed #6B7280;
+            width: 80%; /* Takes 80% width of its parent */
+            margin: 16px auto; /* Vertical spacing and centering */
+        }
+
+        /* Styles for the header when scrolled */
+        .header-scrolled {
+            padding-top: 0.75rem; /* py-3 equivalent */
+            padding-bottom: 0.75rem; /* py-3 equivalent */
+            background-color: #1F2937; /* Tailwind gray-900 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+        }
+        /* Smooth transition for navigation links visibility */
+        .nav-links {
+            transition: all 0.3s ease-in-out;
+        }
+        /* Smooth transition for header title size */
+        .nav-title {
+            transition: all 0.3s ease-in-out;
+        }
+        /* Style for the currently active navigation link */
+        .header-active-link {
+            color: #00A6FB; /* Primary Blue accent */
+            font-weight: 600; /* semibold */
+        }
+
+        /* Fade-in animation for navigation links when they appear */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <!-- Main Color Palette: Brilliant Blues (Adapted for Dark Mode) -->
+    <!-- Primary Blue: #00A6FB, Darker Blue: #0582CA -->
+    <!-- Main Background: #1F2937 (Tailwind gray-900) -->
+    <!-- Card Background: #374151 (Tailwind gray-800) -->
+    <!-- Text: #D1D5DB (Tailwind gray-300) -->
+    <!-- Accent Red (for "Bad"): #EF4444 (Tailwind red-500) -->
+    <!-- Accent Green (for "Good"): #10B981 (Tailwind emerald-500) -->
+
+    <!-- Header Section - Sticky top navigation bar -->
+    <header id="main-header" class="bg-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300 ease-in-out py-6">
+        <nav class="container mx-auto px-6 py-0">
+            <div class="flex justify-between items-center">
+                <!-- Header Title - Changes based on scroll position -->
+                <div id="header-title" class="text-3xl font-bold text-gray-100 transition-all duration-300 ease-in-out nav-title">
+                    <span class="gradient-text">SOLID</span>
+                    <span id="solid-full-text" class="md:inline"> Principles Explained</span>
+                </div>
+                <!-- Navigation Links - Hidden initially, shown on scroll -->
+                <ul id="nav-links" class="hidden md:flex space-x-6 transition-all duration-300 ease-in-out nav-links">
+                    <li><a href="#srp" class="text-gray-300 hover:text-[#00A6FB] transition nav-link">Single Responsibility</a></li>
+                    <li><a href="#ocp" class="text-gray-300 hover:text-[#00A6FB] transition nav-link">Open/Closed</a></li>
+                    <li><a href="#lsp" class="text-gray-300 hover:text-[#00A6FB] transition nav-link">Liskov Substitution</a></li>
+                    <li><a href="#isp" class="text-gray-300 hover:text-[#00A6FB] transition nav-link">Interface Segregation</a></li>
+                    <li><a href="#dip" class="text-gray-300 hover:text-[#00A6FB] transition nav-link">Dependency Inversion</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto p-4 md:p-8">
+        <!-- Hero Section -->
+        <section class="text-center py-12 md:py-20">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-100 leading-tight">Build Better, Stronger Code with <br><span class="gradient-text">SOLID Principles</span></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-400">Discover the five fundamental concepts that transform your software from fragile to flexible. Think of this as your roadmap to writing cleaner, more maintainable, and highly scalable object-oriented code.</p>
+        </section>
+
+        <!-- Single Responsibility Principle (SRP) Section -->
+        <section id="srp" class="py-12 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-5xl font-black text-[#00A6FB]">S</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mt-2">Single Responsibility Principle</h2>
+                <p class="mt-2 text-lg text-gray-400">A class should have one, and only one, reason to change.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <!-- Problem Description for SRP -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Problem: The "God" Class</h3>
+                    <p class="mb-4 text-gray-300">Imagine a class that does everything: manages users, logs errors, and handles payments. A change to the payment system could accidentally break user management. This high coupling makes the code brittle and hard to maintain.</p>
+                    <div class="p-4 bg-red-900 border-l-4 border-red-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-red-400 mb-2">👎 Bad Example: <code>UserManager</code> (Violates SRP)</h4>
+                        <p class="text-sm text-red-300 mb-2">This class handles user creation, database saving, AND email sending. Three reasons to change!</p>
+                        <pre class="bg-gray-900 text-red-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class UserManager {
+public:
+    void createUser(std::string name) {
+        // Saves user to DB
+        // Sends welcome email
+    }
+    void deleteUser(std::string name) { /* ... */ }
+};</pre>
+                    </div>
+                </div>
+
+                <!-- Solution Description for SRP -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Solution: Separate Concerns</h3>
+                    <p class="mb-4 text-gray-300">By splitting the "God" class into smaller, focused classes, each has only one job. Changes are isolated, and the code becomes reusable and easier to test. This drastically reduces complexity.</p>
+                     <div class="p-4 bg-emerald-900 border-l-4 border-emerald-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-emerald-400 mb-2">👍 Good Example: Separate Classes (Adheres to SRP)</h4>
+                        <p class="text-sm text-emerald-300 mb-2">Each class has one specific job, making code modular and easier to maintain.</p>
+                        <pre class="bg-gray-900 text-emerald-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class UserRepository {
+public:
+    void save(std::string name) { /* ... */ }
+};
+
+class EmailService {
+public:
+    void sendWelcome(std::string name) { /* ... */ }
+};
+
+class UserCreator {
+    UserRepository& repo;
+    EmailService& email;
+public:
+    UserCreator(Repo& r, Email& e) : repo(r), email(e) {}
+    void create(std::string name) {
+        repo.save(name);
+        email.sendWelcome(name);
+    }
+};</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visual Metaphor for SRP -->
+            <div class="mt-8 bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="font-bold text-xl mb-6 text-gray-100 text-center">Visual Metaphor: Swiss Army Knife vs. Specialized Toolbox</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Bad Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-red-900/20 rounded-lg border border-red-700">
+                        <img src="images/swissKnife.jpg" width="180" height="120" alt="Overloaded Swiss Army Knife" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Think of an <strong>overloaded Swiss Army Knife</strong> trying to do everything (violates SRP). One small modification can break many unrelated functions.
+                        </p>
+                    </div>
+                    <!-- Good Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-emerald-900/20 rounded-lg border border-emerald-700">
+                        <img src="images/toolBox.jpg" width="180" height="120" alt="Specialized Toolbox" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Instead, imagine a <strong>specialized toolbox</strong> where each tool (hammer, screwdriver, wrench) has a single, clear purpose. Changes to one tool don't affect others, making maintenance simple.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Diagram for SRP -->
+            <div class="mt-12 bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                 <h3 class="font-bold text-xl mb-3 text-gray-100">Impact: Clearer, Safer Changes</h3>
+                 <p class="max-w-2xl mx-auto mb-6 text-gray-300">Applying SRP significantly reduces the complexity and coupling within a module. This means when you need to change how users are saved (e.g., switch from a file to a database), you only touch the <code>UserRepository</code> class. You don't have to worry about accidentally breaking the email sending feature, because that's handled by a completely separate <code>EmailService</code> class. This makes your code much safer, easier to debug, and faster to update.</p>
+                 <div class="p-4 bg-gray-700 rounded-lg max-w-lg mx-auto">
+                    <h4 class="font-bold text-lg text-gray-100 mb-4">Impact Diagram: Single Responsibility</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-red-600 text-white p-4 rounded-lg shadow-md text-center font-bold">
+                            Big "God" Class<br>(Many Jobs)
+                        </div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="text-gray-400 font-semibold mb-2">SRP Applied</div>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div class="bg-emerald-600 text-white p-3 rounded-lg shadow-md text-center font-bold flex-1">
+                                Class A<br>(Job 1)
+                            </div>
+                            <div class="bg-emerald-600 text-white p-3 rounded-lg shadow-md text-center font-bold flex-1">
+                                Class B<br>(Job 2)
+                            </div>
+                            <div class="bg-emerald-600 text-white p-3 rounded-lg shadow-md text-center font-bold flex-1">
+                                Class C<br>(Job 3)
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-4">Each change is isolated and safe.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Open/Closed Principle (OCP) Section -->
+        <section id="ocp" class="py-12 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-5xl font-black text-[#00A6FB]">O</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mt-2">Open/Closed Principle</h2>
+                <p class="mt-2 text-lg text-gray-400">Software should be open for extension, but closed for modification.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <!-- Problem Description for OCP -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Problem: Modifications Everywhere</h3>
+                    <p class="mb-4 text-gray-300">Imagine a reporting system where adding a new report type means altering a large <code>if-else if</code> block in the core reporting function. Each change risks breaking existing reports, leading to constant retesting and potential bugs. This makes your code fragile.</p>
+                    <div class="p-4 bg-red-900 border-l-4 border-red-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-red-400 mb-2">👎 Bad Example: <code>ReportGenerator</code> (Violates OCP)</h4>
+                        <p class="text-sm text-red-300 mb-2">Adding a new report type requires modifying this function.</p>
+                        <pre class="bg-gray-900 text-red-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+enum ReportType { PDF, CSV };
+class ReportGenerator {
+public:
+    void generate(ReportType type) {
+        if (type == PDF) { /* ... */ }
+        else if (type == CSV) { /* ... */ }
+        // Adding NEW_REPORT_TYPE means modifying here!
+    }
+};</pre>
+                    </div>
+                </div>
+
+                <!-- Solution Description for OCP -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Solution: Extend, Don't Modify</h3>
+                    <p class="mb-4 text-gray-300">Your core code should be stable and reliable, like a locked box. When you need a new feature, you shouldn't have to break open the box and risk damaging the contents. Instead, you should be able to "plug in" new functionality by extending the existing system through well-defined interfaces or inheritance.</p>
+                    <div class="p-4 bg-emerald-900 border-l-4 border-emerald-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-emerald-400 mb-2">👍 Good Example: <code>ReportGenerator</code> with OCP</h4>
+                        <p class="text-sm text-emerald-300 mb-2">Add new reports by creating new classes without changing <code>ReportGenerator</code>.</p>
+                        <pre class="bg-gray-900 text-emerald-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class IReport { public: virtual void generate() = 0; };
+
+class PdfReport : public IReport {
+public: void generate() override { /* ... */ }
+};
+
+class CsvReport : public IReport {
+public: void generate() override { /* ... */ }
+};
+
+class ReportProcessor {
+public:
+    void process(IReport& report) { report.generate(); }
+};</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visual Metaphor for OCP -->
+            <div class="mt-8 bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="font-bold text-xl mb-6 text-gray-100 text-center">Visual Metaphor: Game Console vs. Cartridge Slots</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Bad Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-red-900/20 rounded-lg border border-red-700">
+                        <img src="images/fullywiredarcade.jpg" width="180" height="120" alt="Fixed Arcade Machine" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Think of a <strong>fixed arcade machine</strong> where adding a new game requires rewiring the whole system (violates OCP).
+                        </p>
+                    </div>
+                    <!-- Good Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-emerald-900/20 rounded-lg border border-emerald-700">
+                        <img src="images/gamingconsolewithchips.jpg" width="180" height="120" alt="Game Console with Cartridge Slots" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Instead, a <strong>game console with cartridge slots</strong> adheres to OCP. The console (core system) is <strong>closed</strong> for modification – you don't alter its internal circuits. But it's <strong>open</strong> for extension – you can simply plug in a new <strong>game cartridge</strong> (new feature) without changing the console itself.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Diagram for OCP -->
+            <div class="mt-12 bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                <h3 class="font-bold text-xl mb-3 text-gray-100">Impact: Flexible & Stable Growth</h3>
+                <p class="max-w-2xl mx-auto mb-6 text-gray-300">Without OCP, adding each new report type would mean changing and re-testing the central <code>ReportGenerator</code> class, risking new bugs in already working code. With OCP, you simply create a <strong>new</strong> report class (e.g., <code>ExcelReport</code>) that follows the <code>IReport</code> "contract." The core <code>ReportProcessor</code> doesn't need to change, making your system stable and easily extensible. This means adding new features becomes a predictable, low-risk task, much like adding new apps to your smartphone without needing to reprogram the phone itself!</p>
+                <div class="p-4 bg-gray-700 rounded-lg max-w-lg mx-auto">
+                    <h4 class="font-bold text-lg text-gray-100 mb-4">Impact Diagram: Plug-and-Play Features</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-blue-600 text-white p-4 rounded-lg shadow-md text-center font-bold">
+                            Core System<br>(Closed for Modification)
+                        </div>
+                        <div class="flow-arrow-down"></div>
+                        <p class="text-gray-400 text-sm">Open for Extension:</p>
+                        <div class="flex justify-center gap-4 mt-2">
+                            <div class="bg-teal-600 text-white p-3 rounded-lg shadow-md text-center font-bold">
+                                New Feature A
+                            </div>
+                            <div class="bg-teal-600 text-white p-3 rounded-lg shadow-md text-center font-bold">
+                                New Feature B
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-4">Add new features without touching core code.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Liskov Substitution Principle (LSP) Section -->
+        <section id="lsp" class="py-12 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-5xl font-black text-[#00A6FB]">L</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mt-2">Liskov Substitution Principle</h2>
+                <p class="mt-2 text-lg text-gray-400">Subtypes must be substitutable for their base types without surprises.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                 <!-- Problem Description for LSP -->
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Problem: Breaking Expectations</h3>
+                    <p class="mb-4 text-gray-300">If a function is designed to work with a <code>Shape</code> object and calls a method like <code>getArea()</code>, it expects a valid area to be returned. If a <code>Square</code> (a <code>Shape</code> subtype) breaks this expectation by, say, implicitly forcing its height to be equal to its width when only the width is set, it violates LSP. This introduces unpredictable behavior and subtle bugs that are hard to diagnose because a subtype isn't behaving like its parent type. The "is-a" relationship in inheritance isn't just about structure; it's about behavior.</p>
+                    <div class="p-4 bg-red-900 border-l-4 border-red-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-red-400 mb-2">👎 Bad Example: <code>Square</code> as <code>Rectangle</code> (Violates LSP)</h4>
+                        <p class="text-sm text-red-300 mb-2"><code>Square</code> breaks <code>Rectangle</code>'s <code>setWidth</code> expectation if it forces <code>height = width</code>.</p>
+                        <pre class="bg-gray-900 text-red-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class Rectangle {
+public:
+    void setWidth(int w) { /* ... */ }
+    void setHeight(int h) { /* ... */ }
+};
+
+class Square : public Rectangle {
+public:
+    void setWidth(int w) {
+        Rectangle::setWidth(w);
+        Rectangle::setHeight(w); // Violates Rectangle contract!
+    }
+    void setHeight(int h) {
+        setWidth(h); // Calls self
+    }
+};</pre>
+                    </div>
+                 </div>
+                 <!-- Solution Description for LSP -->
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Solution: Honor the Contract</h3>
+                    <p class="mb-4 text-gray-300">The "No Surprises" Rule: If a function expects a <code>Bird</code> object, it should work correctly whether you give it a <code>Sparrow</code> or a <code>Duck</code>. However, if you give it a <code>Penguin</code> (which can't fly), and the function tries to call <code>fly()</code>, the program's correctness is broken. A subtype must honor the "contract" (expected behavior) of its parent class.</p>
+                    <div class="p-4 bg-emerald-900 border-l-4 border-emerald-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-emerald-400 mb-2">👍 Good Example: Independent <code>Shape</code> Hierarchy</h4>
+                        <p class="text-sm text-emerald-300 mb-2"><code>Square</code> and <code>Rectangle</code> are distinct, both deriving from a common <code>Shape</code>.</p>
+                        <pre class="bg-gray-900 text-emerald-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class Shape {
+public: virtual int getArea() = 0;
+};
+
+class Rectangle : public Shape {
+    int w, h;
+public: Rectangle(int w, int h) : w(w), h(h) {}
+    int getArea() override { return w * h; }
+};
+
+class Square : public Shape {
+    int side;
+public: Square(int s) : side(s) {}
+    int getArea() override { return side * side; }
+};</pre>
+                    </div>
+                 </div>
+            </div>
+            
+            <!-- Visual Metaphor for LSP -->
+            <div class="mt-8 bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="font-bold text-xl mb-6 text-gray-100 text-center">Visual Metaphor: Power Outlet and Appliances</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Bad Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-red-900/20 rounded-lg border border-red-700">
+                        <img src="images/explosiveToaster.jpg" width="180" height="120" alt="Unpredictable Power Outlet" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Imagine an <strong>unpredictable power outlet</strong> where plugging in a specific "smart" toaster somehow makes it explode (violates LSP).
+                        </p>
+                    </div>
+                    <!-- Good Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-emerald-900/20 rounded-lg border border-emerald-700">
+                        <img src="images/standardPowerOutlet.jpg" width="180" height="120" alt="Standard Power Outlet" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Instead, a <strong>standard power outlet</strong> adheres to LSP. Whether you plug in a lamp, a phone charger, or a fan, they all draw power consistently and function as expected. Any valid electrical appliance can substitute another without causing unexpected behavior.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Diagram for LSP -->
+            <div class="mt-12 bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                <h3 class="font-bold text-xl mb-3 text-gray-100">Impact: Predictable & Robust Code</h3>
+                <p class="max-w-2xl mx-auto mb-6 text-gray-300">When you follow LSP, your code becomes highly predictable. If you have a function that calculates the area of any <code>Shape</code>, it will work correctly for both <code>Rectangle</code> and <code>Square</code> without needing special checks or leading to unexpected results. Violating LSP, however, can introduce subtle bugs that are hard to find. For example, if a <code>Square</code> pretends to be a <code>Rectangle</code> but breaks its width/height rules, any code expecting a normal <code>Rectangle</code> might get incorrect calculations or even crash! LSP ensures your program behaves reliably, making it easier to build complex systems.</p>
+                <div class="p-4 bg-gray-700 rounded-lg max-w-lg mx-auto">
+                    <h4 class="font-bold text-lg text-gray-100 mb-4">Impact Diagram: Substitution Without Surprises</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-blue-600 text-white p-4 rounded-lg shadow-md text-center font-bold">
+                            Function expects<br><code>BaseClass</code>
+                        </div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="bg-emerald-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                    <code>SubtypeA</code>
+                                </div>
+                                <span class="text-emerald-400 mt-1">✅ Works Fine</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-red-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                    <code>SubtypeB</code>
+                                </div>
+                                <span class="text-red-400 mt-1">❌ Unexpected Behavior</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-4">LSP ensures <code>SubtypeA</code> behaves as expected, unlike <code>SubtypeB</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Interface Segregation Principle (ISP) Section -->
+        <section id="isp" class="py-12 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-5xl font-black text-[#00A6FB]">I</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mt-2">Interface Segregation Principle</h2>
+                <p class="mt-2 text-lg text-gray-400">Clients should not be forced to depend on interfaces they do not use.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                 <!-- Problem Description for ISP -->
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Problem: "Fat" Interfaces</h3>
+                    <p class="mb-4 text-gray-300">A single, large interface with many methods (a "fat" interface) forces implementing classes to define methods they don't even need. This leads to bloated classes and confusing code.</p>
+                    <div class="p-4 bg-red-900 border-l-4 border-red-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-red-400 mb-2">👎 Bad Example: <code>IMultiFunctionPrinter</code> (Violates ISP)</h4>
+                        <p class="text-sm text-red-300 mb-2">A simple printer is forced to implement <code>fax</code> and <code>scan</code>.</p>
+                        <pre class="bg-gray-900 text-red-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class IMultiFunctionPrinter {
+public:
+    virtual void print() = 0;
+    virtual void scan() = 0;
+    virtual void fax() = 0;
+};
+
+class SimplePrinter : public IMultiFunctionPrinter {
+public:
+    void print() override { /* ... */ }
+    void scan() override { /* does nothing */ }
+    void fax() override { /* does nothing */ }
+};</pre>
+                    </div>
+                 </div>
+                 <!-- Solution Description for ISP -->
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Solution: Lean Interfaces</h3>
+                    <p class="mb-4 text-gray-300">ISP encourages breaking down these "fat" interfaces into smaller, more specific ones. This way, clients only implement or depend on the interfaces relevant to their needs.</p>
+                    <div class="p-4 bg-emerald-900 border-l-4 border-emerald-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-emerald-400 mb-2">👍 Good Example: Segregated Interfaces</h4>
+                        <p class="text-sm text-emerald-300 mb-2">Printer only implements <code>IPrinter</code>, no unused methods.</p>
+                        <pre class="bg-gray-900 text-emerald-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class IPrinter { public: virtual void print() = 0; };
+class IScanner { public: virtual void scan() = 0; };
+class IFax { public: virtual void fax() = 0; };
+
+class SimplePrinter : public IPrinter {
+public: void print() override { /* ... */ }
+};
+
+class MultiFunctionDevice : public IPrinter, public IScanner, public IFax {
+public:
+    void print() override { /* ... */ }
+    void scan() override { /* ... */ }
+    void fax() override { /* ... */ }
+};</pre>
+                    </div>
+                 </div>
+            </div>
+            
+            <!-- Visual Metaphor for ISP -->
+            <div class="mt-8 bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="font-bold text-xl mb-6 text-gray-100 text-center">Visual Metaphor: Universal Remote vs. Specific Remotes</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Bad Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-red-900/20 rounded-lg border border-red-700">
+                        <img src="images/chunkyRemote.jpg" width="180" height="120" alt="Bloated Universal Remote" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Consider a single, <strong>bloated universal remote</strong> with hundreds of buttons for everything imaginable (violates ISP). Even if you only have a TV, you're burdened by all the irrelevant buttons.
+                        </p>
+                    </div>
+                    <!-- Good Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-emerald-900/20 rounded-lg border border-emerald-700">
+                        <img src="images/interfacesegregationremote.jpg" width="180" height="120" alt="Focused Remotes" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Instead, a set of <strong>simple, specific remotes</strong> (one for TV, one for DVD) adheres to ISP. You only use the remote with the buttons you need, making each remote simple, focused, and much easier to use.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Diagram for ISP -->
+            <div class="mt-12 bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                <h3 class="font-bold text-xl mb-3 text-gray-100">Impact: Clean, Focused, Reusable Code</h3>
+                <p class="max-w-2xl mx-auto mb-6 text-gray-300">With ISP, you avoid forcing classes to pretend to have capabilities they don't. A simple <code>Printer</code> only implements the <code>IPrinter</code> interface, clearly stating its true functionality. This makes your classes much cleaner, easier to understand, and prevents unexpected "empty" methods. It also improves flexibility because you can now easily create specialized classes (like a <code>ScannerOnlyDevice</code>) without being tied to a huge, irrelevant interface. Your code becomes more modular and truly reflects what each part can do.</p>
+                <div class="p-4 bg-gray-700 rounded-lg max-w-lg mx-auto">
+                    <h4 class="font-bold text-lg text-gray-100 mb-4">Impact Diagram: Slimming Down Interfaces</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-red-600 text-white p-4 rounded-lg shadow-md text-center font-bold">
+                            "Fat" Interface<br>(Print, Scan, Fax)
+                        </div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="text-gray-400 font-semibold mb-2">ISP Applied</div>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div class="bg-blue-600 text-white p-3 rounded-lg shadow-md text-center font-bold">
+                                IPrinter
+                            </div>
+                            <div class="bg-blue-600 text-white p-3 rounded-lg shadow-md text-center font-bold">
+                                IScanner
+                            </div>
+                            <div class="bg-blue-600 text-white p-3 rounded-lg shadow-md text-center font-bold">
+                                IFax
+                            </div>
+                        </div>
+                        <div class="flow-arrow-down mt-4"></div>
+                        <div class="bg-emerald-600 text-white p-4 rounded-lg shadow-md text-center font-bold">
+                            SimplePrinter implements<br>only IPrinter
+                        </div>
+                        <p class="text-sm text-gray-400 mt-4">Classes only interact with what they need.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Dependency Inversion Principle (DIP) Section -->
+        <section id="dip" class="py-12 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-5xl font-black text-[#00A6FB]">D</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mt-2">Dependency Inversion Principle</h2>
+                <p class="mt-2 text-lg text-gray-400">High-level modules should depend on abstractions, not low-level details.</p>
+            </div>
+            
+             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                 <!-- Problem Description for DIP -->
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Problem: Hardwired Components</h3>
+                    <p class="mb-4 text-gray-300">Imagine a light switch hardwired to a specific incandescent light bulb. If you want to change to an LED bulb, you have to physically change the switch! In code, this means your high-level logic (the switch) is directly dependent on low-level details (the specific bulb type).</p>
+                    <div class="p-4 bg-red-900 border-l-4 border-red-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-red-400 mb-2">👎 Bad Example: <code>LightSwitch</code> (Violates DIP)</h4>
+                        <p class="text-sm text-red-300 mb-2"><code>LightSwitch</code> directly creates and depends on a specific bulb.</p>
+                        <pre class="bg-gray-900 text-red-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class IncandescentBulb {
+public:
+    void turnOn() { /* ... */ }
+    void turnOff() { /* ... */ }
+};
+
+class LightSwitch {
+private:
+    IncandescentBulb bulb; // Direct dependency!
+public:
+    void toggle() {
+        // if bulb is on, turn off; else turn on
+    }
+};</pre>
+                    </div>
+                 </div>
+                 <!-- Solution Description for DIP -->
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="font-bold text-xl mb-3 text-gray-100">The Solution: Depend on Abstractions</h3>
+                    <p class="mb-4 text-gray-300">DIP "inverts" this by making both the high-level logic (the switch) and low-level details (the bulbs) depend on a shared abstraction (an <code>ILightSource</code> interface). Now, you can swap bulb types without changing the switch's logic.</p>
+                    <div class="p-4 bg-emerald-900 border-l-4 border-emerald-500 rounded-r-lg mb-4">
+                        <h4 class="text-lg font-semibold text-emerald-400 mb-2">👍 Good Example: <code>LightSwitch</code> with DIP</h4>
+                        <p class="text-sm text-emerald-300 mb-2"><code>LightSwitch</code> depends on <code>ILightSource</code> abstraction.</p>
+                        <pre class="bg-gray-900 text-emerald-200 p-3 rounded-md overflow-x-auto font-mono text-sm">
+class ILightSource {
+public: virtual void turnOn() = 0; virtual void turnOff() = 0;
+};
+
+class IncandescentBulb : public ILightSource {
+public: void turnOn() override { /* ... */ } void turnOff() override { /* ... */ }
+};
+
+class LedBulb : public ILightSource {
+public: void turnOn() override { /* ... */ } void turnOff() override { /* ... */ }
+};
+
+class LightSwitch {
+private:
+    ILightSource& bulb; // Depends on abstraction!
+public:
+    LightSwitch(ILightSource& light) : bulb(light) {}
+    void toggle() {
+        // if bulb is on, turn off; else turn on
+    }
+};</pre>
+                    </div>
+                 </div>
+            </div>
+            
+            <!-- Visual Metaphor for DIP -->
+            <div class="mt-8 bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="font-bold text-xl mb-6 text-gray-100 text-center">Visual Metaphor: USB Port and Devices</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Bad Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-red-900/20 rounded-lg border border-red-700">
+                        <img src="images/printeronmotherboard.jpg" width="180" height="120" alt="Old Wired PC" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Consider a <strong>rigidly wired computer</strong> where a printer is hardwired directly to the motherboard (violates DIP). Changing the printer means changing the computer.
+                        </p>
+                    </div>
+                    <!-- Good Metaphor -->
+                    <div class="flex flex-col items-center text-center p-4 bg-emerald-900/20 rounded-lg border border-emerald-700">
+                        <img src="images/perfectsetupdip.jpg" width="180" height="120" alt="USB Port" class="block rounded-md shadow-lg mb-4">
+                        <p class="text-gray-300 mx-auto max-w-xs">
+                            Instead, a <strong>modern computer with a USB port</strong> adheres to DIP. The computer (high-level) doesn't care if you plug in a mouse, keyboard, or printer. It communicates through the <strong>USB standard</strong> (abstraction). Both the computer and the devices depend on this abstract interface, allowing easy swapping of devices without altering the computer's core logic.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Diagram for DIP -->
+            <div class="mt-12 bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                <h3 class="font-bold text-xl mb-3 text-gray-100">Impact: Flexible & Reusable Systems</h3>
+                <p class="max-w-2xl mx-auto mb-6 text-gray-300">By using DIP, your <code>LightSwitch</code> no longer cares about the specific <code>IncandescentBulb</code> or <code>LedBulb</code>. It just knows how to interact with <strong>any</strong> <code>ILightSource</code>. This means you can easily swap out <code>IncandescentBulb</code> for an <code>LedBulb</code> (or even a <code>SmartBulb</code>) without changing the <code>LightSwitch</code>'s code. This makes your high-level logic highly reusable in different situations and significantly reduces the effort when changing low-level components. It makes your system much more adaptable and easier to maintain in the long run.</p>
+                <div class="p-4 bg-gray-700 rounded-lg max-w-lg mx-auto">
+                    <h4 class="font-bold text-lg text-gray-100 mb-4">Impact Diagram: Inverting Control</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="text-gray-400 font-semibold mb-2">Before DIP: Direct Link</div>
+                        <div class="flex items-center">
+                            <div class="bg-blue-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                Light Switch<br>(High-Level)
+                            </div>
+                            <div class="flow-arrow-right"></div>
+                            <div class="bg-red-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                Incandescent Bulb<br>(Low-Level)
+                            </div>
+                        </div>
+                        <div class="dashed-line-horizontal my-6"></div>
+                        <div class="text-gray-400 font-semibold mb-2">After DIP: Through Abstraction</div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-blue-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                Light Switch<br>(High-Level)
+                            </div>
+                            <div class="flow-arrow-down"></div>
+                            <div class="bg-yellow-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                ILightSource<br>(Abstraction)
+                            </div>
+                            <div class="flow-arrow-down"></div>
+                            <div class="flex justify-center gap-4">
+                                <div class="bg-emerald-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                    Incandescent Bulb<br>(Low-Level)
+                                </div>
+                                <div class="bg-emerald-600 text-white p-3 rounded-lg shadow-md font-bold">
+                                    LED Bulb<br>(Low-Level)
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-4">High-level logic now easily swaps low-level details.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Summary and Real-Life Scenarios Section -->
+        <section id="summary-and-scenarios" class="py-12 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mt-2">Wrapping It Up: The Power of SOLID</h2>
+                <p class="mt-2 text-lg text-gray-400">SOLID principles are your blueprint for building robust, adaptable, and maintainable software.</p>
+            </div>
+
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md mb-8">
+                <h3 class="font-bold text-xl mb-3 text-gray-100">Summary: Building Better Software, Step by Step</h3>
+                <p class="text-gray-300 mb-4">By applying the <strong>Single Responsibility Principle (SRP)</strong>, you create focused classes, making your code easier to manage. The <strong>Open/Closed Principle (OCP)</strong> allows you to add new features without touching existing, stable code, ensuring smooth growth. <strong>Liskov Substitution Principle (LSP)</strong> guarantees that different parts of your code behave predictably, preventing unexpected bugs. The <strong>Interface Segregation Principle (ISP)</strong> keeps your interfaces lean and specific, avoiding unnecessary complexity. Finally, the <strong>Dependency Inversion Principle (DIP)</strong> frees your core logic from specific details, making your system incredibly flexible and easy to reuse. Together, these principles guide you to write high-quality, long-lasting software.</p>
+            </div>
+
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="font-bold text-xl mb-4 text-gray-100">Real-Life Software Development Scenarios</h3>
+                <p class="text-gray-300 mb-6">Here are some common situations where applying SOLID principles truly makes a difference in software development:</p>
+
+                <div class="mb-8 p-4 bg-gray-700 rounded-lg">
+                    <h4 class="font-bold text-lg text-gray-100 mb-2">Scenario 1: E-commerce Payment System</h4>
+                    <p class="text-gray-300 mb-2">Imagine an online store's payment system. Initially, it only accepts credit cards.</p>
+                    <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                        <li><strong>Without SOLID (Bad):</strong> Adding new payment methods (like PayPal, Apple Pay, crypto) requires you to constantly modify the main <code>PaymentProcessor</code> class, adding more <code>if-else</code> statements. This makes the class huge, hard to test, and risky to change. A bug in PayPal integration could break credit card processing!</li>
+                        <li><strong>With SOLID (Good):</strong>
+                            <ul class="list-circle list-inside ml-4 text-gray-400 text-sm">
+                                <li><strong>OCP & DIP:</strong> You'd define an <code>IPaymentGateway</code> interface. <code>CreditCardGateway</code>, <code>PayPalGateway</code>, etc., would each implement this. The <code>PaymentProcessor</code> depends only on <code>IPaymentGateway</code>.</li>
+                                <li><strong>Benefit:</strong> Adding a new payment method is as simple as creating a new class for it. You never touch the main <code>PaymentProcessor</code>, ensuring stability and speeding up new feature deployment.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mb-8 p-4 bg-gray-700 rounded-lg">
+                    <h4 class="font-bold text-lg text-gray-100 mb-2">Scenario 2: Employee Payroll System</h4>
+                    <p class="text-gray-300 mb-2">A company has a system to calculate employee salaries, taxes, and generate pay stubs.</p>
+                    <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                        <li><strong>Without SOLID (Bad):</strong> A single <code>Employee</code> class calculates salary, deducts taxes, and prints the pay stub. When tax laws change (a common event!), you modify the <code>Employee</code> class. If the pay stub format changes, you modify <code>Employee</code> again. This class becomes a bottleneck for any payroll-related change.</li>
+                        <li><strong>With SOLID (Good):</strong>
+                            <ul class="list-circle list-inside ml-4 text-gray-400 text-sm">
+                                <li><strong>SRP:</strong> Separate classes like <code>SalaryCalculator</code>, <code>TaxDeductor</code>, <code>PayStubGenerator</code>. The <code>PayrollManager</code> orchestrates these.</li>
+                                <li><strong>Benefit:</strong> When tax laws change, only <code>TaxDeductor</code> is updated. New pay stub designs only affect <code>PayStubGenerator</code>. Changes are isolated, tested quickly, and released confidently, preventing chaos during critical payroll runs.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-gray-700 rounded-lg">
+                    <h4 class="font-bold text-lg text-gray-100 mb-2">Scenario 3: Cross-Platform Mobile App (Image Processing)</h4>
+                    <p class="text-gray-300 mb-2">A mobile app needs to apply various filters (grayscale, sepia, blur) to user photos, working on both iOS and Android.</p>
+                    <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                        <li><strong>ISP:</strong> Create <code>IGrayscaleFilter</code>, <code>ISepiaFilter</code> interfaces.
+                        <li><strong>DIP:</strong> The <code>PhotoProcessor</code> takes an <code>IImageFilter</code> interface. Specific platform implementations (<code>IOSGrayscaleFilter</code>, <code>AndroidGrayscaleFilter</code>) would implement these.</li>
+                        <li><strong>LSP:</strong> Both iOS and Android versions of <code>GrayscaleFilter</code> behave consistently when the <code>PhotoProcessor</code> calls <code>apply()</code>.</li>
+                        <li><strong>Benefit:</strong> The core <code>PhotoProcessor</code> remains clean. Adding a new filter (e.g., "Vintage") means just creating <code>IOSVintageFilter</code> and <code>AndroidVintageFilter</code> classes, without changing the core photo processing logic. This speeds up feature development and ensures consistent behavior across platforms.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer Section -->
+    <footer class="bg-gray-950 text-gray-300 mt-20">
+        <div class="container mx-auto p-8 text-center">
+            <h2 class="text-2xl font-bold">Ready to Build Better Code?</h2>
+            <p class="mt-2 max-w-2xl mx-auto text-gray-400">By embracing these five principles, you're not just writing code—you're engineering robust, flexible, and maintainable software solutions. Start applying them today!</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Dynamic Header and Navigation Highlight -->
+    <script>
+        const header = document.getElementById('main-header');
+        const headerTitle = document.getElementById('header-title');
+        const solidFullText = document.getElementById('solid-full-text');
+        const navLinksContainer = document.getElementById('nav-links');
+        const sections = document.querySelectorAll('section[id]'); // Get all sections with an ID
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+
+            // Header title and navigation links visibility logic based on scroll position
+            if (scrollY > 100) { // When scrolled down past a certain threshold
+                header.classList.add('header-scrolled', 'py-3');
+                header.classList.remove('py-6');
+                solidFullText.classList.add('hidden'); // Hide "Principles Explained" to shorten title
+                navLinksContainer.classList.remove('hidden'); // Show navigation links
+                headerTitle.classList.add('text-2xl'); // Make "SOLID" text smaller
+                headerTitle.classList.remove('text-3xl');
+            } else { // When at the top or near the top
+                header.classList.remove('header-scrolled', 'py-3');
+                header.classList.add('py-6');
+                solidFullText.classList.remove('hidden'); // Show full title "Principles Explained"
+                navLinksContainer.classList.add('hidden'); // Hide navigation links
+                headerTitle.classList.add('text-3xl'); // Make full title text larger
+                headerTitle.classList.remove('text-2xl');
+            }
+
+            // Highlight active navigation link based on current section in view
+            let currentActiveLink = null;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.id;
+
+                // Calculate offset considering the sticky header's height and a small buffer
+                const offset = header.offsetHeight + 50; 
+
+                // Check if the current scroll position is within the section's bounds
+                if (scrollY >= sectionTop - offset && scrollY < sectionTop + sectionHeight - offset) {
+                    currentActiveLink = sectionId;
+                }
+            });
+
+            // Remove active class from all links first to ensure only one is highlighted
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('header-active-link');
+            });
+
+            // Add active class to the currently viewed section's corresponding navigation link
+            if (currentActiveLink) {
+                const activeNavLink = document.querySelector(`.nav-link[href="#${currentActiveLink}"]`);
+                if (activeNavLink) {
+                    activeNavLink.classList.add('header-active-link');
+                }
+            }
+        });
+
+        // Trigger scroll event on page load to set initial header state (e.g., if page refreshes mid-scroll)
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+</html>
